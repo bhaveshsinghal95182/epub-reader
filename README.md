@@ -72,5 +72,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- Thanks to all contributors who have helped shape this project
+- I just vibecoded the whole thing 😭🙏
 - Inspired by the need for a comfortable reading experience in dark mode 
