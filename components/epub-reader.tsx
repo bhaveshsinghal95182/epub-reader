@@ -1,14 +1,13 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ChevronLeft, ChevronRight, Menu, Download } from "lucide-react"
+import { ChevronLeft, ChevronRight, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { useToast } from "@/hooks/use-toast"
 import JSZip from "jszip"
 import { useTheme } from "next-themes"
 import Head from "next/head"
-import { generateEpubMetadataXml } from "@/utils/xml-utils"
 
 interface EpubReaderProps {
   url: string
@@ -39,7 +38,6 @@ export function EpubReader({ url }: EpubReaderProps) {
   const { toast } = useToast()
   const { theme } = useTheme()
   const [currentChapterTitle, setCurrentChapterTitle] = useState<string>("")
-  const [bookMetadata, setBookMetadata] = useState<any>(null)
 
   // Load the EPUB file
   useEffect(() => {
@@ -264,24 +262,6 @@ export function EpubReader({ url }: EpubReaderProps) {
           title,
           chapters: validChapters,
           resources
-        });
-        
-        // Store complete metadata for XML export
-        setBookMetadata({
-          title,
-          creator,
-          publisher,
-          language,
-          identifier,
-          date: pubDate,
-          description,
-          subjects,
-          rights,
-          chapters: validChapters.map(chapter => ({
-            id: chapter.id,
-            title: chapter.title,
-            href: chapter.href
-          }))
         });
         
         setToc(validChapters.map((chapter, index) => ({
@@ -589,43 +569,6 @@ export function EpubReader({ url }: EpubReaderProps) {
     return JSON.stringify(structuredData);
   };
 
-  // Function to download book metadata as XML
-  const downloadMetadataXml = () => {
-    if (!bookMetadata) return;
-    
-    try {
-      const xml = generateEpubMetadataXml(bookMetadata);
-      
-      // Create a blob with the XML content
-      const blob = new Blob([xml], { type: 'application/xml' });
-      const url = URL.createObjectURL(blob);
-      
-      // Create a temporary link and trigger download
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${bookMetadata.title.replace(/\s+/g, '-').toLowerCase()}-metadata.xml`;
-      document.body.appendChild(a);
-      a.click();
-      
-      // Clean up
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      toast({
-        variant: "success",
-        title: "XML Downloaded",
-        description: "Book metadata XML has been downloaded successfully.",
-      });
-    } catch (error) {
-      console.error("Error generating XML:", error);
-      toast({
-        variant: "error",
-        title: "Download Failed",
-        description: "Failed to generate XML file.",
-      });
-    }
-  };
-
   return (
     <>
       {epubContent && (
@@ -717,20 +660,6 @@ export function EpubReader({ url }: EpubReaderProps) {
               <ChevronLeft className="h-4 w-4" aria-hidden="true" />
               <span className="sr-only">Previous Chapter</span>
             </Button>
-            
-            {/* XML Download Button */}
-            {bookMetadata && (
-              <Button
-                onClick={downloadMetadataXml}
-                variant="outline"
-                disabled={isLoading}
-                className="border-2 border-[#222222] dark:border-[#F5F5F5] shadow-[4px_4px_0px_rgba(0,0,0,0.9)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.9)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.9)] transition-all hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0px_rgba(0,0,0,0.9)] disabled:opacity-50 disabled:shadow-none"
-                aria-label="Download XML Metadata"
-              >
-                <Download className="h-4 w-4" aria-hidden="true" />
-                <span className="sr-only">Download XML</span>
-              </Button>
-            )}
             
             <Button
               onClick={handleNextPage}
