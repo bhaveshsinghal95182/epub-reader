@@ -6,15 +6,13 @@ import { EpubReader } from "@/components/epub-reader"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Settings } from "lucide-react"
-import { ReaderSettings } from "@/components/reader-settings"
+import { ArrowLeft } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/hooks/use-toast"
 
 export default function ReaderPage() {
   const [epubUrl, setEpubUrl] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string>("")
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
@@ -76,7 +74,7 @@ export default function ReaderPage() {
     <div className="flex min-h-screen flex-col bg-[#F5F5F5] text-[#222222] dark:bg-[#222222] dark:text-[#F5F5F5]">
       <SiteHeader />
 
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-4 flex items-center">
         <Button
           variant="outline"
           onClick={() => router.push("/")}
@@ -85,20 +83,7 @@ export default function ReaderPage() {
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-            className="border-2 border-[#222222] dark:border-[#F5F5F5] shadow-[4px_4px_0px_rgba(0,0,0,0.9)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.9)] hover:shadow-[2px_2px_0px_rgba(0,0,0,0.9)] dark:hover:shadow-[2px_2px_0px_rgba(255,255,255,0.9)] transition-shadow hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0px_rgba(0,0,0,0.9)]"
-          >
-            <Settings className="h-4 w-4" />
-            <span className="sr-only">Reader Settings</span>
-          </Button>
-        </div>
       </div>
-
-      {isSettingsOpen && <ReaderSettings onClose={() => setIsSettingsOpen(false)} />}
 
       <main className="flex-1 container mx-auto px-4 py-4">
         <EpubReader url={epubUrl} />
