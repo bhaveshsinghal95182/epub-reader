@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast"
 import JSZip from "jszip"
 import { useTheme } from "next-themes"
 import Head from "next/head"
-import { generateEpubMetadataXml } from "@/utils/xml-generator"
+import { generateEpubMetadataXml } from "@/utils/xml-utils"
 
 interface EpubReaderProps {
   url: string
