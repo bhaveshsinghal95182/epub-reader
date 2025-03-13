@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EPUB Reader &amp; Viewer</title>
+    <link>https://your-domain.com</link>
+    <description>Upload your EPUB file and read it online with our feature-rich EPUB reader.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jun 2023 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://your-domain.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New EPUB Reader Features</title>
+      <link>https://your-domain.com/reader</link>
+      <pubDate>Mon, 01 Jun 2023 00:00:00 GMT</pubDate>
+      <guid>https://your-domain.com/reader</guid>
+      <description>We've added new features to our EPUB reader including improved navigation, better theme support, and enhanced accessibility.</description>
+    </item>
+  </channel>
+</rss> 
